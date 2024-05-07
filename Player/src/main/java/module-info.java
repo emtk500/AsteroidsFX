@@ -1,12 +1,12 @@
 
-import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.enemy.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.enemy.common.services.IGamePluginService;
 
 module Player {
     requires Common;
     requires CommonBullet;   
-    uses dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-    provides IGamePluginService with dk.sdu.mmmi.cbse.playersystem.PlayerPlugin;
-    provides IEntityProcessingService with dk.sdu.mmmi.cbse.playersystem.PlayerControlSystem;
+    uses dk.sdu.mmmi.enemy.common.bullet.BulletSPI;
+    provides IGamePluginService with dk.sdu.mmmi.enemy.playersystem.PlayerPlugin;
+    provides IEntityProcessingService with dk.sdu.mmmi.enemy.playersystem.PlayerControlSystem;
     
 }
