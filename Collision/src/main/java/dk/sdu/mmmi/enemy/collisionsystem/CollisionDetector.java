@@ -22,6 +22,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
                 }
 
                 // CollisionDetection
+
                 if (this.collides(entity1, entity2)) {
                     world.removeEntity(entity1);
                     world.removeEntity(entity2);
