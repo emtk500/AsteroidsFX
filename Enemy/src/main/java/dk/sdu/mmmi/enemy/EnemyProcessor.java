@@ -25,14 +25,14 @@ public class EnemyProcessor implements IEntityProcessingService {
         long currentTime = System.currentTimeMillis();
 
         // Check if enough time has passed for the enemy to act
-        if (currentTime - lastActionTime > 8000) { // 2000 milliseconds = 2 seconds
+        if (currentTime - lastActionTime > 8000) {
             lastActionTime = currentTime;
             canAct = true;
         }
 
         if (canAct) {
             for (Entity enemy : world.getEntities(Enemy.class)) {
-                // Move randomly
+
                 double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
                 double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
 
@@ -53,13 +53,15 @@ public class EnemyProcessor implements IEntityProcessingService {
                 }
 
                 // Randomly shoot
-                if (random.nextBoolean()) { // 50% chance of shooting
+                if (random.nextDouble()<0.01) { // 50% chance of shooting
                     getBulletSPIs().stream().findFirst().ifPresent(
                             spi -> {
                                 world.addEntity(spi.createBullet(enemy, gameData));
                             }
                     );
                 }
+
+
 
             }
             canAct = false; // Set flag to prevent further actions until the next interval

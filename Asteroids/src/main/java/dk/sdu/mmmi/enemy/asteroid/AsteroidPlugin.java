@@ -32,7 +32,7 @@ public class AsteroidPlugin implements IGamePluginService {
         Random rnd = new Random();
         int size = rnd.nextInt(10) + 5;
         asteroid.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
-        asteroid.setX(50);
+        asteroid.setX(250);
         asteroid.setY(25);
         asteroid.setRadius(size);
         asteroid.setRotation(rnd.nextInt(90));
