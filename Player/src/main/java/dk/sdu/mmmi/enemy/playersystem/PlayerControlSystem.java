@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.enemy.playersystem;
 
+import dk.sdu.mmmi.enemy.common.bullet.Bullet;
 import dk.sdu.mmmi.enemy.common.bullet.BulletSPI;
 import dk.sdu.mmmi.enemy.common.data.Entity;
 import dk.sdu.mmmi.enemy.common.data.GameData;
@@ -31,7 +32,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setX(player.getX() + changeX);
                 player.setY(player.getY() + changeY);
             }
-            if(gameData.getKeys().isDown(GameKeys.SPACE)) {                
+            if(gameData.getKeys().isDown(GameKeys.SPACE)) {
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {world.addEntity(spi.createBullet(player, gameData));}
                 );
