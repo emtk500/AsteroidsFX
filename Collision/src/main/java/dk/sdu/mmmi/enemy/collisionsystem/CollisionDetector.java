@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.enemy.collisionsystem;
 
+import dk.sdu.mmmi.Enemy;
 import dk.sdu.mmmi.enemy.asteroid.AsteroidSplitterImpl;
 import dk.sdu.mmmi.enemy.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.enemy.common.asteroids.IAsteroidSplitter;
@@ -8,6 +9,7 @@ import dk.sdu.mmmi.enemy.common.data.GameData;
 import dk.sdu.mmmi.enemy.common.data.World;
 import dk.sdu.mmmi.enemy.common.asteroids.Asteroid;
 import dk.sdu.mmmi.enemy.common.bullet.Bullet;
+import dk.sdu.mmmi.enemy.playersystem.Player;
 
 public class CollisionDetector implements IPostEntityProcessingService {
 
@@ -26,34 +28,57 @@ public class CollisionDetector implements IPostEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
 
-       /*
-        for (Entity entity1 : world.getEntities()) {
-            for (Entity entity2 : world.getEntities()) {
+        for (Entity bullet : world.getEntities(Bullet.class)) {
+            // Check for collisions with player
+            for (Entity playerShip : world.getEntities(Player.class)) {
+                if (collides(bullet, playerShip)) {
 
-                // if the two entities are identical, skip the iteration
-                if (entity1.getID().equals(entity2.getID())) {
-                    continue;
-                }
+                    world.removeEntity(bullet);
+                    System.out.println("player lives: " + playerShip.getLives());
 
-                // CollisionDetection
-                if (this.collides(entity1, entity2)) {
-                    world.removeEntity(entity1);
-                    world.removeEntity(entity2);
+                    if (playerShip.getLives() == 0){
+                        world.removeEntity(playerShip);
+                    } else {
+                        playerShip.setLives(playerShip.getLives()-1);
+                    }
+
+
+                    break;
                 }
             }
         }
 
-        */
-        // two for loops for all entities in the world
+        for (Entity bullet : world.getEntities(Bullet.class)) {
+            // Check for collisions with enemy
+            for (Entity enemy : world.getEntities(Enemy.class)) {
+                if (collides(bullet, enemy)) {
+
+                    world.removeEntity(bullet);
+                    System.out.println("enemy lives: " + enemy.getLives());
+
+                    if (enemy.getLives() == 0){
+                        world.removeEntity(enemy);
+                    } else {
+                        enemy.setLives(enemy.getLives()-1);
+                    }
+
+                    break;
+                }
+            }
+        }
+
         for (Entity bullet : world.getEntities(Bullet.class)) {
             // Check for collisions with asteroids
             for (Entity asteroid : world.getEntities(Asteroid.class)) {
                 if (collides(bullet, asteroid)) {
-                    // Remove bullet and asteroid
+
+                    // Remove bullet
+                    world.removeEntity(bullet);
 
                     // Create split asteroids
                     asteroidSplitter.createSplitAsteroid(asteroid, world);
-                    // Break out of the inner loop since bullet can collide with only one asteroid
+
+
                     break;
                 }
             }

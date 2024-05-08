@@ -14,6 +14,16 @@ public class Entity implements Serializable {
     private float radius;
 
     private String type;
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    private int lives;
             
 
     public String getID() {

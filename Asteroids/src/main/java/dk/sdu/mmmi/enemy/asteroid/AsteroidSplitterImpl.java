@@ -32,8 +32,10 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
         world.removeEntity(asteroid);
 
         // Add the split asteroids to the world
-        world.addEntity(splitAsteroid1);
-        world.addEntity(splitAsteroid2);
+        if (newSize > 2){
+            world.addEntity(splitAsteroid1);
+            world.addEntity(splitAsteroid2);
+        }
         System.out.println(splitAsteroid1.getX());
     }
     /**
@@ -49,10 +51,10 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
         Entity asteroid = new Asteroid();
         asteroid.setType("Asteroid");
         asteroid.setRadius(size);
-        asteroid.setX(50);
-        asteroid.setY(50);
+        asteroid.setX(x);
+        asteroid.setY(y);
         asteroid.setRotation(new Random().nextInt(90));
-        // Set polygon coordinates here if needed
+        asteroid.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
         return asteroid;
     }
 
