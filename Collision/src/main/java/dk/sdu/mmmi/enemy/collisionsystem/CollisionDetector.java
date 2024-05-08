@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.enemy.collisionsystem;
 
+import dk.sdu.mmmi.enemy.asteroid.AsteroidSplitterImpl;
 import dk.sdu.mmmi.enemy.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.enemy.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.enemy.common.data.Entity;
@@ -10,15 +11,22 @@ import dk.sdu.mmmi.enemy.common.bullet.Bullet;
 
 public class CollisionDetector implements IPostEntityProcessingService {
 
-    private IAsteroidSplitter asteroidSplitter;
+    private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
+
+    public CollisionDetector(){
+
+    }
 
     public CollisionDetector(IAsteroidSplitter asteroidSplitter) {
         this.asteroidSplitter = asteroidSplitter;
     }
 
+
+
     @Override
     public void process(GameData gameData, World world) {
 
+       /*
         for (Entity entity1 : world.getEntities()) {
             for (Entity entity2 : world.getEntities()) {
 
@@ -35,14 +43,14 @@ public class CollisionDetector implements IPostEntityProcessingService {
             }
         }
 
+        */
         // two for loops for all entities in the world
-        /*for (Entity bullet : world.getEntities(Bullet.class)) {
+        for (Entity bullet : world.getEntities(Bullet.class)) {
             // Check for collisions with asteroids
             for (Entity asteroid : world.getEntities(Asteroid.class)) {
                 if (collides(bullet, asteroid)) {
                     // Remove bullet and asteroid
-                    world.removeEntity(bullet);
-                    world.removeEntity(asteroid);
+
                     // Create split asteroids
                     asteroidSplitter.createSplitAsteroid(asteroid, world);
                     // Break out of the inner loop since bullet can collide with only one asteroid
@@ -51,7 +59,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             }
         }
 
-         */
+
     }
 
 
@@ -61,5 +69,6 @@ public class CollisionDetector implements IPostEntityProcessingService {
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
         return distance < (entity1.getRadius() + entity2.getRadius());
     }
+
 
 }
