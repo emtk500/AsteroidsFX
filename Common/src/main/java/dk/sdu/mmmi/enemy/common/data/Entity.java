@@ -2,7 +2,9 @@ package dk.sdu.mmmi.enemy.common.data;
 
 import java.io.Serializable;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();

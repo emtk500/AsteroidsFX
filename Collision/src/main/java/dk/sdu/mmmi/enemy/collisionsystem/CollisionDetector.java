@@ -10,7 +10,10 @@ import dk.sdu.mmmi.enemy.common.data.World;
 import dk.sdu.mmmi.enemy.common.asteroids.Asteroid;
 import dk.sdu.mmmi.enemy.common.bullet.Bullet;
 import dk.sdu.mmmi.enemy.playersystem.Player;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Component
 public class CollisionDetector implements IPostEntityProcessingService {
 
     private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
@@ -19,6 +22,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
     }
 
+   @Autowired
     public CollisionDetector(IAsteroidSplitter asteroidSplitter) {
         this.asteroidSplitter = asteroidSplitter;
     }

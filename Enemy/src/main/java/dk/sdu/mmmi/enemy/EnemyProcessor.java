@@ -14,6 +14,9 @@ import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class EnemyProcessor implements IEntityProcessingService {
 
     private Random random = new Random();

@@ -6,6 +6,7 @@ module Enemy {
     requires Common;
     requires CommonEnemy;
     requires CommonBullet;
+    requires spring.context;
 
     uses dk.sdu.mmmi.enemy.common.bullet.BulletSPI;
 

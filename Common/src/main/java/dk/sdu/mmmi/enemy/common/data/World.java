@@ -10,6 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author jcs
  */
+import org.springframework.stereotype.Component;
+
+@Component
 public class World {
 
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();

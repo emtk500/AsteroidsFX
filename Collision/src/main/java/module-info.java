@@ -7,6 +7,8 @@ module Collision {
     requires Asteroid;
     requires Player;
     requires CommonEnemy;
+    requires spring.context;
+    requires spring.beans;
 
     provides IPostEntityProcessingService with dk.sdu.mmmi.enemy.collisionsystem.CollisionDetector;
 }

@@ -6,11 +6,13 @@ import dk.sdu.mmmi.enemy.common.data.GameData;
 import dk.sdu.mmmi.enemy.common.data.World;
 import dk.sdu.mmmi.enemy.common.services.IGamePluginService;
 import java.util.Random;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author corfixen
  */
+@Component
 public class AsteroidPlugin implements IGamePluginService {
 
     @Override

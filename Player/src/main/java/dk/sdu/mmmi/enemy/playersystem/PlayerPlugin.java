@@ -4,10 +4,16 @@ import dk.sdu.mmmi.enemy.common.data.Entity;
 import dk.sdu.mmmi.enemy.common.data.GameData;
 import dk.sdu.mmmi.enemy.common.data.World;
 import dk.sdu.mmmi.enemy.common.services.IGamePluginService;
+
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Component
 public class PlayerPlugin implements IGamePluginService {
 
     private Entity player;
 
+    @Autowired
     public PlayerPlugin() {
     }
 

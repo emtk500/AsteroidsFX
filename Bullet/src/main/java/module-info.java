@@ -5,6 +5,7 @@ import dk.sdu.mmmi.enemy.common.services.IGamePluginService;
 module Bullet {
     requires Common;
     requires CommonBullet;
+    requires spring.context;
     provides IGamePluginService with dk.sdu.mmmi.enemy.bulletsystem.BulletPlugin;
     provides BulletSPI with dk.sdu.mmmi.enemy.bulletsystem.BulletControlSystem;
     provides IEntityProcessingService with dk.sdu.mmmi.enemy.bulletsystem.BulletControlSystem;

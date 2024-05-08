@@ -1,5 +1,8 @@
 package dk.sdu.mmmi.enemy.common.data;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class GameData {
 
     private int displayWidth  = 800 ;

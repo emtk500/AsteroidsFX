@@ -6,7 +6,9 @@ import dk.sdu.mmmi.enemy.common.data.Entity;
 import dk.sdu.mmmi.enemy.common.data.GameData;
 import dk.sdu.mmmi.enemy.common.data.World;
 import dk.sdu.mmmi.enemy.common.services.IEntityProcessingService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AsteroidProcessor implements IEntityProcessingService {
 
     private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();

@@ -9,6 +9,10 @@ import dk.sdu.mmmi.enemy.common.services.IGamePluginService;
 
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
+
+@Component
 public class EnemyPlugin implements IGamePluginService {
 
     @Override
