@@ -20,20 +20,16 @@ import org.springframework.stereotype.Component;
 public class EnemyProcessor implements IEntityProcessingService {
 
     private Random random = new Random();
-    private long lastActionTime = 0;
-    private boolean canAct = true;
+
+    private long lastShootTime = System.currentTimeMillis();
+    private long shootInterval = 500;
+
 
     @Override
     public void process(GameData gameData, World world) {
-        long currentTime = System.currentTimeMillis();
 
-        // Check if enough time has passed for the enemy to act
-        if (currentTime - lastActionTime > 8000) {
-            lastActionTime = currentTime;
-            canAct = true;
-        }
 
-        if (canAct) {
+
             for (Entity enemy : world.getEntities(Enemy.class)) {
 
                 double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
@@ -55,19 +51,21 @@ public class EnemyProcessor implements IEntityProcessingService {
                     enemy.setY(0);
                 }
 
-                // Randomly shoot
-                if (random.nextDouble()<0.01) { // 50% chance of shooting
-                    getBulletSPIs().stream().findFirst().ifPresent(
-                            spi -> {
-                                world.addEntity(spi.createBullet(enemy, gameData));
-                            }
-                    );
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastShootTime >= shootInterval) {
+                    // Reset the timer
+                    lastShootTime = currentTime;
+
+                    // Randomly shoot
+                    if (random.nextDouble() < 0.20) {
+                        getBulletSPIs().stream().findFirst().ifPresent(
+                                spi -> {
+                                    world.addEntity(spi.createBullet(enemy, gameData));
+                                }
+                        );
+                    }
                 }
 
-
-
-            }
-            canAct = false; // Set flag to prevent further actions until the next interval
         }
     }
 
