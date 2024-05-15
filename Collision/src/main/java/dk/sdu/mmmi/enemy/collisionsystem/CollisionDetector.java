@@ -61,6 +61,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
                     System.out.println("enemy lives: " + enemy.getLives());
 
                     if (enemy.getLives() == 0){
+                        enemy.setAlive(false);
                         world.removeEntity(enemy);
                     } else {
                         enemy.setLives(enemy.getLives()-1);
@@ -81,6 +82,22 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
                     // Create split asteroids
                     asteroidSplitter.createSplitAsteroid(asteroid, world);
+
+
+                    break;
+                }
+            }
+        }
+
+        for (Entity playerShip : world.getEntities(Player.class)) {
+            // Check for collisions with player
+            for (Entity asteroid : world.getEntities(Asteroid.class)) {
+                if (collides(playerShip, asteroid)) {
+
+                    world.removeEntity(playerShip);
+                    asteroidSplitter.createSplitAsteroid(asteroid, world);
+
+                    System.out.println("You died");
 
 
                     break;

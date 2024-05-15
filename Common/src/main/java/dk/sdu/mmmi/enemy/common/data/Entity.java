@@ -17,6 +17,19 @@ public class Entity implements Serializable {
 
     private String type;
 
+    private boolean isAlive = true;
+
+    public boolean isAlive() {
+        if (getLives()==0){
+            setAlive(false);
+        }
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
     public int getLives() {
         return lives;
     }
