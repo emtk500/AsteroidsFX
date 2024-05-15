@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.springframework.web.client.RestTemplate;
 
 public class Game extends Application {
 
@@ -32,6 +33,11 @@ public class Game extends Application {
     private final List<IEntityProcessingService> entityProcessingServiceList;
     private final List<IPostEntityProcessingService> postEntityProcessingServices;
 
+    private int score = 0;
+
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String scoringServiceUrl = "http://localhost:8080/score";
+
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
         this.gamePluginServices = gamePluginServices;
         this.entityProcessingServiceList = entityProcessingServiceList;
@@ -39,7 +45,7 @@ public class Game extends Application {
     }
 
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        Text text = new Text(10, 20, "Destroyed asteroids: " + score);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
 
