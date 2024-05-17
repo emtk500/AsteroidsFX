@@ -39,7 +39,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
                     world.removeEntity(bullet);
 
-                    if (playerShip.getLives() == 0){
+                    if (playerShip.getLives() == 1){
                         world.removeEntity(playerShip);
                         System.out.println("Player died!");
                     } else {
@@ -61,13 +61,13 @@ public class CollisionDetector implements IPostEntityProcessingService {
                     world.removeEntity(bullet);
 
 
-                    if (enemy.getLives() == 0){
+                    if (enemy.getLives() == 1){
                         enemy.setAlive(false);
                         world.removeEntity(enemy);
                         System.out.println("Enemy died!");
                     } else {
-                        System.out.println("Enemy lives: " + enemy.getLives());
                         enemy.setLives(enemy.getLives()-1);
+                        System.out.println("Enemy lives: " + enemy.getLives());
                     }
 
                     break;
