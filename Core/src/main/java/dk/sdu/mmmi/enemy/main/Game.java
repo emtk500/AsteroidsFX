@@ -7,6 +7,12 @@ import dk.sdu.mmmi.enemy.common.data.World;
 import dk.sdu.mmmi.enemy.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.enemy.common.services.IGamePluginService;
 import dk.sdu.mmmi.enemy.common.services.IPostEntityProcessingService;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +27,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.springframework.web.client.RestTemplate;
 
 public class Game extends Application {
 
@@ -33,9 +38,6 @@ public class Game extends Application {
     private final List<IEntityProcessingService> entityProcessingServiceList;
     private final List<IPostEntityProcessingService> postEntityProcessingServices;
 
-    private int score = 0;
-
-    private final RestTemplate restTemplate = new RestTemplate();
     private final String scoringServiceUrl = "http://localhost:8080/score";
 
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
@@ -45,7 +47,7 @@ public class Game extends Application {
     }
 
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: " + score);
+        Text text = new Text(10, 20, "Destroyed asteroids: " + callScoreService(scoringServiceUrl, false));
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
 
@@ -138,6 +140,30 @@ public class Game extends Application {
 
     }
 
+    private int callScoreService(String url, boolean isVoid){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        int score = 0;
+
+        try {
+            HttpResponse<String> scoreint = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(isVoid != true) {
+                score = Integer.parseInt(scoreint.body());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return  score;
+    }
+
+
     public List<IGamePluginService> getGamePluginServices() {
         return gamePluginServices;
     }
@@ -149,4 +175,7 @@ public class Game extends Application {
     public List<IPostEntityProcessingService> getPostEntityProcessingServices() {
         return postEntityProcessingServices;
     }
+
+
 }
+
