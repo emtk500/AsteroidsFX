@@ -61,12 +61,9 @@ public class Game extends Application {
 
         Text text = new Text(10, 20, "Destroyed asteroids: 0");
 
-        gameOverText = new Text(gameData.getDisplayWidth() / 2 - 50, gameData.getDisplayHeight() / 2, "");
-        gameOverText.setFont(Font.font("Verdana", FontWeight.BOLD, 30)); // Set font size
+        gameOverText = new Text(gameData.getDisplayWidth() / 2 - 175, gameData.getDisplayHeight() / 2, "");
+        gameOverText.setFont(Font.font("Verdana", FontWeight.BOLD, 60)); // Set font size
         gameOverText.setFill(Color.RED);
-
-        window.widthProperty().addListener((obs, oldVal, newVal) -> positionGameOverText());
-        window.heightProperty().addListener((obs, oldVal, newVal) -> positionGameOverText());
 
         gameWindow.getChildren().addAll(text, gameOverText);
 
@@ -163,17 +160,8 @@ public class Game extends Application {
         boolean playerExists = world.getEntities().stream().anyMatch(e -> e instanceof Player);
         if (!playerExists) {
             gameOverText.setText("Game Over");
-            positionGameOverText();
         }
 
-    }
-
-    private void positionGameOverText() {
-        double textWidth = gameOverText.getBoundsInLocal().getWidth();
-        double textHeight = gameOverText.getBoundsInLocal().getHeight();
-
-        gameOverText.setLayoutX((gameData.getDisplayWidth() - textWidth) / 2);
-        gameOverText.setLayoutY((gameData.getDisplayHeight() - textHeight) / 2);
     }
 
     public int callScoreService(String url, boolean isVoid){
