@@ -19,12 +19,17 @@ import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
+
+import dk.sdu.mmmi.enemy.playersystem.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -40,9 +45,9 @@ public class Game extends Application {
 
     private final String GetScoreUrl = "http://localhost:8080/getScore";
 
-    private final String ScoreAPointUrl = "http://localhost:8080/score";
-
     private final String ResetScoreUrl = "http://localhost:8080/resetScore";
+
+    private Text gameOverText;
 
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
         this.gamePluginServices = gamePluginServices;
@@ -53,8 +58,17 @@ public class Game extends Application {
     public void start(Stage window) throws Exception {
         callScoreService(ResetScoreUrl, true);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+
         Text text = new Text(10, 20, "Destroyed asteroids: 0");
-        gameWindow.getChildren().add(text);
+
+        gameOverText = new Text(gameData.getDisplayWidth() / 2 - 50, gameData.getDisplayHeight() / 2, "");
+        gameOverText.setFont(Font.font("Verdana", FontWeight.BOLD, 30)); // Set font size
+        gameOverText.setFill(Color.RED);
+
+        window.widthProperty().addListener((obs, oldVal, newVal) -> positionGameOverText());
+        window.heightProperty().addListener((obs, oldVal, newVal) -> positionGameOverText());
+
+        gameWindow.getChildren().addAll(text, gameOverText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -144,8 +158,22 @@ public class Game extends Application {
         }
 
         Text textNode = (Text) gameWindow.getChildren().get(0);
-        textNode.setText("Destroyed asteroids: " + callScoreService("http://localhost:8080/getScore", false));
+        textNode.setText("Destroyed asteroids: " + callScoreService(GetScoreUrl, false));
 
+        boolean playerExists = world.getEntities().stream().anyMatch(e -> e instanceof Player);
+        if (!playerExists) {
+            gameOverText.setText("Game Over");
+            positionGameOverText();
+        }
+
+    }
+
+    private void positionGameOverText() {
+        double textWidth = gameOverText.getBoundsInLocal().getWidth();
+        double textHeight = gameOverText.getBoundsInLocal().getHeight();
+
+        gameOverText.setLayoutX((gameData.getDisplayWidth() - textWidth) / 2);
+        gameOverText.setLayoutY((gameData.getDisplayHeight() - textHeight) / 2);
     }
 
     public int callScoreService(String url, boolean isVoid){

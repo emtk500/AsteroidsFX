@@ -24,6 +24,9 @@ public class EnemyProcessor implements IEntityProcessingService {
     private long lastShootTime = System.currentTimeMillis();
     private long shootInterval = 500;
 
+    private long lastDirectionChangeTime = System.currentTimeMillis();
+    private long directionChangeInterval = 2000;
+
 
     @Override
     public void process(GameData gameData, World world) {
@@ -31,6 +34,13 @@ public class EnemyProcessor implements IEntityProcessingService {
 
 
             for (Entity enemy : world.getEntities(Enemy.class)) {
+
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastDirectionChangeTime >= directionChangeInterval) {
+                    lastDirectionChangeTime = currentTime;
+                    // Change enemy's rotation randomly within -45 to +45 degrees
+                    enemy.setRotation(enemy.getRotation() + (random.nextDouble() * 180 - 90));
+                }
 
                 double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
                 double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
@@ -51,10 +61,10 @@ public class EnemyProcessor implements IEntityProcessingService {
                     enemy.setY(0);
                 }
 
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastShootTime >= shootInterval) {
+                long currentTime1 = System.currentTimeMillis();
+                if (currentTime1 - lastShootTime >= shootInterval) {
                     // Reset the timer
-                    lastShootTime = currentTime;
+                    lastShootTime = currentTime1;
 
                     // Randomly shoot
                     if (random.nextDouble() < 0.20) {
