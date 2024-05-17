@@ -6,6 +6,7 @@ module Asteroid {
     requires Common;
     requires CommonAsteroids;
     requires spring.context;
+    requires java.net.http;
     provides IGamePluginService with dk.sdu.mmmi.enemy.asteroid.AsteroidPlugin;
     provides IEntityProcessingService with dk.sdu.mmmi.enemy.asteroid.AsteroidProcessor;
 }

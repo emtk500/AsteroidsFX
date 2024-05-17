@@ -38,7 +38,11 @@ public class Game extends Application {
     private final List<IEntityProcessingService> entityProcessingServiceList;
     private final List<IPostEntityProcessingService> postEntityProcessingServices;
 
-    private final String scoringServiceUrl = "http://localhost:8080/score";
+    private final String GetScoreUrl = "http://localhost:8080/getScore";
+
+    private final String ScoreAPointUrl = "http://localhost:8080/score";
+
+    private final String ResetScoreUrl = "http://localhost:8080/resetScore";
 
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
         this.gamePluginServices = gamePluginServices;
@@ -47,8 +51,9 @@ public class Game extends Application {
     }
 
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: " + callScoreService(scoringServiceUrl, false));
+        callScoreService(ResetScoreUrl, true);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        Text text = new Text(10, 20, "Destroyed asteroids: 0");
         gameWindow.getChildren().add(text);
 
         Scene scene = new Scene(gameWindow);
@@ -138,21 +143,23 @@ public class Game extends Application {
             polygon.setRotate(entity.getRotation());
         }
 
+        Text textNode = (Text) gameWindow.getChildren().get(0);
+        textNode.setText("Destroyed asteroids: " + callScoreService("http://localhost:8080/getScore", false));
+
     }
 
-    private int callScoreService(String url, boolean isVoid){
+    public int callScoreService(String url, boolean isVoid){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
                 .build();
 
-        int score = 0;
-
+        int scoreInt = 0;
         try {
-            HttpResponse<String> scoreint = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> score = client.send(request, HttpResponse.BodyHandlers.ofString());
             if(isVoid != true) {
-                score = Integer.parseInt(scoreint.body());
+                scoreInt = Integer.parseInt(score.body());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -160,7 +167,7 @@ public class Game extends Application {
             throw new RuntimeException(e);
         }
 
-        return  score;
+        return  scoreInt;
     }
 
 
