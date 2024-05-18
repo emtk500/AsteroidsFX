@@ -38,7 +38,7 @@ public class EnemyProcessor implements IEntityProcessingService {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastDirectionChangeTime >= directionChangeInterval) {
                     lastDirectionChangeTime = currentTime;
-                    // Change enemy's rotation randomly within -45 to +45 degrees
+                    // Change enemy's rotation randomly within -90 to +90 degrees
                     enemy.setRotation(enemy.getRotation() + (random.nextDouble() * 180 - 90));
                 }
 
