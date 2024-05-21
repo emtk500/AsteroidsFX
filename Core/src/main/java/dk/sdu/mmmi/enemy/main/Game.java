@@ -62,7 +62,7 @@ public class Game extends Application {
         Text text = new Text(10, 20, "Destroyed asteroids: 0");
 
         gameOverText = new Text(gameData.getDisplayWidth() / 2 - 175, gameData.getDisplayHeight() / 2, "");
-        gameOverText.setFont(Font.font("Verdana", FontWeight.BOLD, 60)); // Set font size
+        gameOverText.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
         gameOverText.setFill(Color.RED);
 
         gameWindow.getChildren().addAll(text, gameOverText);
@@ -154,9 +154,12 @@ public class Game extends Application {
             polygon.setRotate(entity.getRotation());
         }
 
+
+        // update text for the players score
         Text textNode = (Text) gameWindow.getChildren().get(0);
         textNode.setText("Destroyed asteroids: " + callScoreService(GetScoreUrl, false));
 
+        // if player entity is not in the game world, then draw "game over"
         boolean playerExists = world.getEntities().stream().anyMatch(e -> e instanceof Player);
         if (!playerExists) {
             gameOverText.setText("Game Over");
@@ -164,6 +167,8 @@ public class Game extends Application {
 
     }
 
+
+    // Method to send http request to scoringsystem microservice.
     public int callScoreService(String url, boolean isVoid){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

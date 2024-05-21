@@ -66,6 +66,8 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter {
         return asteroid;
     }
 
+
+    // Send HTTP request to scoringsystem microservice in order to update score.
     public int updateScore(String url){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

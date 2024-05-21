@@ -32,6 +32,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
 
+        // Bullet and player collision
+
         for (Entity bullet : world.getEntities(Bullet.class)) {
             // Check for collisions with player
             for (Entity playerShip : world.getEntities(Player.class)) {
@@ -53,6 +55,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             }
         }
 
+        // bullet and enemy collision
         for (Entity bullet : world.getEntities(Bullet.class)) {
             // Check for collisions with enemy
             for (Entity enemy : world.getEntities(Enemy.class)) {
