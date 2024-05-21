@@ -4,7 +4,7 @@ import dk.sdu.mmmi.enemy.common.asteroids.Asteroid;
 import dk.sdu.mmmi.enemy.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.enemy.common.data.Entity;
 import dk.sdu.mmmi.enemy.common.data.World;
-import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,10 +13,13 @@ import java.net.http.HttpResponse;
 
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author corfixen
  */
+
 @Component
 public class AsteroidSplitterImpl implements IAsteroidSplitter {
 
